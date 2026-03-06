@@ -22,5 +22,5 @@ COPY --from=builder /app/static ./static
 RUN mkdir -p /tmp/results && \
     chmod +x ./app
 
-EXPOSE 10010
+EXPOSE 8084
 CMD ["./app"]

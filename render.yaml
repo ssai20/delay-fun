@@ -10,7 +10,7 @@ services:
       - key: RESULTS_DIR
         value: /tmp/results  # Используем временную директорию
       - key: PORT
-        value: 10010
+        value: 8084
     
     autoDeploy: true
     healthCheckPath: /health
