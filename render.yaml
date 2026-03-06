@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: delay-fun
+    name: fun
     runtime: docker
     region: frankfurt  # или ближайший к вам
     plan: free
