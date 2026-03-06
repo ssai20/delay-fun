@@ -1,7 +1,7 @@
 package main
 
 import (
-	"delay-argument-go/internal/api"
+	"fun-delay/internal/api"
 	"log"
 	"net/http"
 	"os"
@@ -10,7 +10,7 @@ import (
 func main() {
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8083"
+		port = "8084"
 	}
 
 	// Создаем директорию для результатов

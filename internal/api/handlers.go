@@ -1,9 +1,9 @@
 package api
 
 import (
-	"delay-argument-go/internal/calculator"
-	"delay-argument-go/internal/models"
 	"encoding/json"
+	"fun-delay/internal/calculator"
+	"fun-delay/internal/models"
 	"os"
 	"path/filepath"
 	"strings"

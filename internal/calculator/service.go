@@ -1,13 +1,13 @@
 package calculator
 
 import (
-	"delay-argument-go/internal/differenceScheme"
-	"delay-argument-go/internal/examineSolution"
-	"delay-argument-go/internal/gridDesign"
-	"delay-argument-go/internal/latex"
-	"delay-argument-go/internal/models"
-	"delay-argument-go/internal/thomasMethod"
 	"fmt"
+	"fun-delay/internal/differenceScheme"
+	"fun-delay/internal/examineSolution"
+	"fun-delay/internal/gridDesign"
+	"fun-delay/internal/latex"
+	"fun-delay/internal/models"
+	"fun-delay/internal/thomasMethod"
 	"math"
 	"path/filepath"
 	"strings"
