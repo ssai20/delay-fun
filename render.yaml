@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: delay-argument-api
+    runtime: docker
+    region: frankfurt  # или ближайший к вам
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    envVars:
+      - key: RESULTS_DIR
+        value: /tmp/results  # Используем временную директорию
+      - key: PORT
+        value: 10000
+    
+    autoDeploy: true
+    healthCheckPath: /health
