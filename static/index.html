@@ -47,6 +47,43 @@
         <button id="calculateBtn" class="btn-primary">🚀 Запустить расчет</button>
     </div>
 
+    <!-- НОВЫЙ БЛОК: Динамическая таблица параметров -->
+    <div class="params-table-section">
+        <h2>📋 Таблица параметров сетки</h2>
+        <div class="table-container">
+            <table id="paramsTable">
+                <thead>
+                <tr>
+                    <th>ε</th>
+                    <th>N</th>
+                    <th>log₁₀(ε)</th>
+                    <th>Шаг h = ε/N</th>
+                    <th>Ожидаемая ошибка</th>
+                    <th>Действия</th>
+                </tr>
+                </thead>
+                <tbody id="paramsTableBody">
+                <!-- Заполняется динамически через JS -->
+                </tbody>
+            </table>
+        </div>
+        <div class="table-controls">
+            <button id="addRowBtn" class="btn-secondary">➕ Добавить строку</button>
+            <button id="resetTableBtn" class="btn-secondary">🔄 Сбросить</button>
+        </div>
+    </div>
+
+    <!-- НОВЫЙ БЛОК: Предварительный просмотр -->
+    <div class="preview-section">
+        <h2>👀 Предварительный просмотр</h2>
+        <div class="preview-content" id="previewContent">
+            <div class="preview-stats" id="previewStats"></div>
+            <div class="chart-container" style="height: 300px;">
+                <canvas id="previewChart"></canvas>
+            </div>
+        </div>
+    </div>
+
     <div class="status" id="status" style="display: none;"></div>
 
     <div class="results" id="results" style="display: none;">

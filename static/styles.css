@@ -72,7 +72,7 @@ h2 {
 }
 
 .btn-primary:hover {
-    background: #5a67d8;
+    background: #5a67;
 }
 
 .btn-success {
@@ -149,5 +149,172 @@ h2 {
     .form-group label {
         width: 100%;
         margin-bottom: 5px;
+    }
+}
+/* Секция таблицы параметров */
+.params-table-section {
+    margin: 30px 0;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+#paramsTable {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+#paramsTable th {
+    background: #667eea;
+    color: white;
+    padding: 12px;
+    font-size: 14px;
+}
+
+#paramsTable td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+#paramsTable input[type="number"] {
+    width: 100px;
+    padding: 6px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    text-align: center;
+}
+
+#paramsTable input[type="number"]:focus {
+    border-color: #667eea;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.25);
+}
+
+#paramsTable .readonly-field {
+    background-color: #e9ecef;
+    border: none;
+    padding: 6px;
+    border-radius: 4px;
+    color: #495057;
+    font-family: monospace;
+}
+
+.table-controls {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.btn-secondary:hover {
+    background: #5a6268;
+}
+
+.btn-danger {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.btn-danger:hover {
+    background: #c82333;
+}
+
+/* Секция предварительного просмотра */
+.preview-section {
+    margin: 30px 0;
+    padding: 20px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border-radius: 8px;
+}
+
+.preview-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.preview-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.stat-card .stat-label {
+    color: #6c757d;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-card .stat-value {
+    color: #333;
+    font-size: 24px;
+    font-weight: bold;
+    font-family: monospace;
+}
+
+.stat-card .stat-unit {
+    color: #6c757d;
+    font-size: 12px;
+    margin-left: 4px;
+}
+
+/* Анимации */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.params-table-section, .preview-section {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    #paramsTable {
+        font-size: 12px;
+    }
+
+    #paramsTable input[type="number"] {
+        width: 70px;
+    }
+
+    .table-controls {
+        flex-direction: column;
+    }
+
+    .btn-secondary {
+        width: 100%;
+    }
+
+    .preview-stats {
+        grid-template-columns: 1fr;
     }
 }
