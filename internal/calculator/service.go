@@ -8,7 +8,7 @@ import (
 	"fun-delay/internal/gridDesign"
 	"fun-delay/internal/latex"
 	"fun-delay/internal/models"
-	observability "fun-delay/internal/observablity"
+	observability "fun-delay/internal/observability"
 	"fun-delay/internal/thomasMethod"
 	"go.opentelemetry.io/otel/attribute"
 	"go.uber.org/zap"

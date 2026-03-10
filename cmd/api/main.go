@@ -3,7 +3,8 @@ package main
 import (
 	"context"
 	"fun-delay/internal/api"
-	observability "fun-delay/internal/observablity"
+	"fun-delay/internal/middleware"
+	observability "fun-delay/internal/observability"
 	"go.uber.org/zap"
 	"log"
 	"net/http"
@@ -61,10 +62,14 @@ func main() {
 	// Настраиваем маршруты
 	router := api.SetupRoutes(resultsDir, logger, metrics)
 
+	// Добавляем middleware для логирования и метрик
+	handler := middleware.LoggingMiddleware(logger)(router)
+	handler = metrics.Middleware(handler)
+
 	// Создаем HTTP сервер с middleware
 	server := &http.Server{
 		Addr:         ":" + port,
-		Handler:      router,
+		Handler:      handler,
 		ReadTimeout:  30 * time.Second,
 		WriteTimeout: 30 * time.Second,
 		IdleTimeout:  120 * time.Second,

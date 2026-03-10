@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fun-delay/internal/calculator"
 	"fun-delay/internal/models"
-	observability "fun-delay/internal/observablity"
+	observability "fun-delay/internal/observability"
 	"go.opentelemetry.io/otel/attribute"
 	"go.uber.org/zap"
 	"os"
