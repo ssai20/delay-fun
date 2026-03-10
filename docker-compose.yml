@@ -1,10 +1,66 @@
-#version: '3.8'
-#services:
-#  app:
-#    build: .
-#    ports:
-#      - "8084:8084"
-#    volumes:
-#      - ./results:/app/results
-#    environment:
-#      - RESULTS_DIR=/app/results
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8084:8084"   # Основное приложение
+      - "9090:9090"   # Метрики
+      - "6060:6060"   # Профилировщик
+    environment:
+      - LOG_LEVEL=debug
+      - LOG_FORMAT=console
+      - METRICS_ENABLED=true
+      - METRICS_PORT=9090
+      - PROFILER_ENABLED=true
+      - PROFILER_PORT=6060
+      - RESULTS_DIR=/app/results
+      - PORT=8084
+    volumes:
+      - ./results:/app/results
+    networks:
+      - monitoring
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9091:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    networks:
+      - monitoring
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./grafana/datasources:/etc/grafana/provisioning/datasources
+    networks:
+      - monitoring
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "16686:16686"  # UI
+      - "4318:4318"    # OTLP HTTP
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    networks:
+      - monitoring
+
+networks:
+  monitoring:
+    driver: bridge
+
+volumes:
+  prometheus_data:
+  grafana_data:
