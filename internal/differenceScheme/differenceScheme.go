@@ -1,5 +1,7 @@
 package differenceScheme
 
+import "math"
+
 type ABCF struct {
 	A, B, C, F []float64
 }
@@ -54,7 +56,7 @@ func ModifiedTeylorFormulasScheme(
 			denomR = 1e-300
 		}
 
-		R := (phiDelta[i] - phi[i]) * h[i+1] / denomR
+		R := epsilon*epsilon*(math.Exp(delta/epsilon)-1) - delta*epsilon //(phiDelta[i] - phi[i]) * h[i+1] / denomR
 
 		// Ограничиваем R
 		if R > 1e100 {
