@@ -34,7 +34,7 @@ func InitProfiler(cfg *Config) {
 		mux := http.NewServeMux()
 
 		// Регистрируем стандартные pprof handlers
-		mux.HandleFunc(cfg.ProfilerPath+"pprof/", func(w http.ResponseWriter, r *http.Request) {
+		mux.HandleFunc("/debug/pprof/", func(w http.ResponseWriter, r *http.Request) {
 			http.DefaultServeMux.ServeHTTP(w, r)
 		})
 
