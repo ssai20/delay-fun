@@ -84,7 +84,8 @@ func InitProfiler(cfg *Config) {
 }
 
 func takeCPUProfile() error {
-	f, err := os.Create(fmt.Sprintf("cpu_profile_%s.pprof",
+	// Сохраняйте в /tmp вместо текущей директории
+	f, err := os.Create(fmt.Sprintf("/tmp/cpu_profile_%s.pprof",
 		time.Now().Format("20060102_150405")))
 	if err != nil {
 		return err
