@@ -3,6 +3,7 @@ package observability
 import (
 	"context"
 	"fmt"
+	"go.uber.org/zap"
 	"time"
 
 	"go.opentelemetry.io/otel"
@@ -18,22 +19,35 @@ import (
 var tracer trace.Tracer
 
 func InitTracing(cfg *Config) (*sdktrace.TracerProvider, error) {
+	logger := GetLogger() // Получаем логгер
+	logger.Info("InitTracing started", zap.Bool("enabled", cfg.TraceEnabled))
+
 	if !cfg.TraceEnabled {
+		logger.Info("Tracing is disabled by configuration")
 		return nil, nil
 	}
 
+	logger.Info("Step 1: Creating context")
 	ctx := context.Background()
 
-	// Создаем экспортер
+	logger.Info("Step 2: Creating OTLP HTTP exporter",
+		zap.String("endpoint", cfg.TraceEndpoint),
+		zap.Bool("insecure", true),
+	)
 	exporter, err := otlptracehttp.New(ctx,
 		otlptracehttp.WithEndpoint(cfg.TraceEndpoint),
-		otlptracehttp.WithInsecure(), // Для разработки, в production используйте TLS
+		otlptracehttp.WithInsecure(),
 	)
 	if err != nil {
+		logger.Error("Step 2 FAILED: Failed to create trace exporter", zap.Error(err))
 		return nil, fmt.Errorf("failed to create trace exporter: %w", err)
 	}
+	logger.Info("Step 2 SUCCESS: Exporter created")
 
-	// Создаем ресурс с информацией о сервисе
+	logger.Info("Step 3: Creating resource",
+		zap.String("service.name", cfg.TraceServiceName),
+		zap.String("environment", cfg.TraceEnvironment),
+	)
 	res, err := resource.New(ctx,
 		resource.WithAttributes(
 			semconv.ServiceName(cfg.TraceServiceName),
@@ -42,25 +56,31 @@ func InitTracing(cfg *Config) (*sdktrace.TracerProvider, error) {
 		),
 	)
 	if err != nil {
+		logger.Error("Step 3 FAILED: Failed to create resource", zap.Error(err))
 		return nil, fmt.Errorf("failed to create resource: %w", err)
 	}
+	logger.Info("Step 3 SUCCESS: Resource created")
 
-	// Создаем TracerProvider
+	logger.Info("Step 4: Creating TracerProvider")
 	tp := sdktrace.NewTracerProvider(
 		sdktrace.WithBatcher(exporter,
 			sdktrace.WithBatchTimeout(5*time.Second),
 		),
 		sdktrace.WithResource(res),
-		sdktrace.WithSampler(sdktrace.AlwaysSample()), // В production используйте ProbabilisticSampler
+		sdktrace.WithSampler(sdktrace.AlwaysSample()),
 	)
+	logger.Info("Step 4 SUCCESS: TracerProvider created")
 
+	logger.Info("Step 5: Setting global providers")
 	otel.SetTracerProvider(tp)
 	otel.SetTextMapPropagator(propagation.NewCompositeTextMapPropagator(
 		propagation.TraceContext{},
 		propagation.Baggage{},
 	))
+	logger.Info("Step 5 SUCCESS: Global providers set")
 
 	tracer = tp.Tracer(cfg.TraceServiceName)
+	logger.Info("✅ InitTracing completed successfully")
 
 	return tp, nil
 }
